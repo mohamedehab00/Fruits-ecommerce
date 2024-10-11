@@ -1,0 +1,90 @@
+openapi: 3.0.3
+info:
+  title: Fruits Ecommerce Back-End API v1
+  version: 1.0.11
+servers:
+  - url: http://localhost:8080/api/v1
+
+tags:
+  - name: Adminstrative Endpoints
+    description: All Adminstrative Endpoints
+
+
+paths:
+  /dashboard/products:
+    post:
+      tags:
+        - Adminstrative Endpoints
+      summary: Bulk Creation of products
+      operationId: productsBulkCreation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: products to be added
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductCreationDto'
+
+      responses:
+        default:
+          description: Desriptive Message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkCreationResponse'
+
+components:
+  schemas:
+
+    ProductCreationDto:
+      type: object
+      properties:
+        name:
+          type: string
+          format: text
+        description:
+          type: string
+          format: text
+        unit:
+          type: string
+          format: text
+        price:
+          type: number
+          format: double
+        image_path:
+          type: string
+          format: text
+
+    DefaultResponse:
+      type: "object"
+      required:
+        - message
+        - code
+      properties:
+        message:
+          type: string
+          example: "Descriptive Message Here"
+        code:
+          description: Status Code
+          type: string
+          example: "0000"
+
+
+
+    BulkCreationResponse:
+      allOf:
+        - $ref: '#/components/schemas/DefaultResponse'
+        - type: "object"
+          required:
+            - createdProducts
+            - notCreatedProducts
+          properties:
+            createdProducts:
+              type: array
+              items:
+                type: object
+            notCreatedProducts:
+              type: array
+              items:
+                type: object

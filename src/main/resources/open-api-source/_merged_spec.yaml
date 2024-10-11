@@ -1,0 +1,23 @@
+---
+servers:
+- url: "http://localhost:8080"
+openapi: "3.0.3"
+paths:
+  /auth/login:
+    $ref: "./UserAndAuthentication.yaml#/paths/~1auth~1login"
+  /auth/role:
+    $ref: "./UserAndAuthentication.yaml#/paths/~1auth~1role"
+  /user/{id}/role:
+    $ref: "./UserAndAuthentication.yaml#/paths/~1user~1{id}~1role"
+  /auth/register:
+    $ref: "./UserAndAuthentication.yaml#/paths/~1auth~1register"
+  /dashboard/products:
+    $ref: "./AdminstrativeApis.yaml#/paths/~1dashboard~1products"
+  /user/{id}:
+    $ref: "./UserAndAuthentication.yaml#/paths/~1user~1{id}"
+  /products:
+    $ref: "./PuplicApis.yaml#/paths/~1products"
+info:
+  title: "merged spec"
+  description: "merged spec"
+  version: "1.0.0"
