@@ -25,7 +25,7 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Value("${allowed.cors.origins}")
-    private List<String> allowedOrigins;
+    private String allowedOrigins;
 
     public SecurityConfiguration(
             JwtAuthenticationFilter jwtAuthenticationFilter,
@@ -40,7 +40,7 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests->{
                     requests
-                            .requestMatchers("/api/v1/auth/**","api/v1/user/**")
+                            .requestMatchers("/api/v1/products","/api/v1/dashboard/products","/api/v1/auth/login","/api/v1/auth/register")
                             .permitAll();
                 })
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> {
@@ -56,7 +56,7 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(allowedOrigins);
+        configuration.setAllowedOrigins(List.of(allowedOrigins));
         configuration.setAllowedMethods(List.of("GET","POST"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
 

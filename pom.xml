@@ -168,7 +168,7 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+							<inputSpecRootDirectory>${project.basedir}/src/main/resources/open-api-source</inputSpecRootDirectory>
 							<generatorName>spring</generatorName>
 							<typeMappings>integer=Long,int=Long,OffsetDateTime=LocalDateTime</typeMappings>
 							<importMappings>
