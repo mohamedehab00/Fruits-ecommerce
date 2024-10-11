@@ -2,11 +2,12 @@ package com.fruits.ecommerce.service.serviceImpl;
 
 import com.fruits.ecommerce.domain.Role;
 import com.fruits.ecommerce.domain.User;
+import com.fruits.ecommerce.mapper.RoleRoleDtoMapper;
+import com.fruits.ecommerce.mapper.UserUserDtoMapper;
 import com.fruits.ecommerce.repository.RoleRepository;
 import com.fruits.ecommerce.repository.UserRepository;
 import com.fruits_openapi.ecommerce_openapi.model.*;
-import lombok.Getter;
-import org.modelmapper.ModelMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,26 +18,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-@Getter
+@RequiredArgsConstructor
 @Service
 public class AuthService {
     private final UserRepository userRepository;
-
     private final RoleRepository roleRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final AuthenticationManager authenticationManager;
-
-    private final ModelMapper modelMapper;
-
-    public AuthService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, ModelMapper modelMapper) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
-        this.modelMapper = modelMapper;
-    }
+    private final UserUserDtoMapper userMapper;
+    private final RoleRoleDtoMapper roleMapper;
 
     @Transactional
     public UserDto signup(UserCreationDto input) {
@@ -54,14 +44,14 @@ public class AuthService {
                 .id(null)
                 .email(input.getEmail())
                 .password(passwordEncoder.encode(input.getPassword()))
-                .roles(validRoles)
+                .roles(validRoles.stream().toList())
                 .createdAt(null)
                 .updatedAt(null)
                 .build();
 
-        user = userRepository.save(user);
+        user = this.userRepository.save(user);
 
-        return getModelMapper().map(user, UserDto.class);
+        return this.userMapper.userToUserDto(user);
     }
 
     public User authenticate(UserLoginDto input) {
@@ -77,9 +67,7 @@ public class AuthService {
 
     public List<RoleDto> getRoles() {
         List<Role> roles = roleRepository.findAll();
-        return roles.stream().map(
-                role -> getModelMapper().map(role, RoleDto.class)
-        ).toList();
+        return roles.stream().map(this.roleMapper::roleToRoleDto).toList();
     }
 
     @Transactional
@@ -92,12 +80,12 @@ public class AuthService {
         for (RoleCreationDto roleCreationDto : validRoles) {
             Role role = Role.builder()
                     .id(null)
-                    .type("ROLE_"+roleCreationDto.getType())
+                    .type("ROLE_" + roleCreationDto.getType())
                     .createdAt(null)
                     .updatedAt(null)
                     .build();
 
-            getRoleRepository().save(role);
+            this.roleRepository.save(role);
         }
     }
 }

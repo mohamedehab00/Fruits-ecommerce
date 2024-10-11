@@ -27,26 +27,12 @@ paths:
               $ref: '#/components/schemas/UserCreationDto'
         required: true
       responses:
-        '201':
-          description: User Created
+        default:
+          description: Default response
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: user created successfully
-        '400':
-          description: email is already in use
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: email is already in us
+                $ref: '#/components/schemas/DefaultResponse'
   /auth/login:
     post:
       tags:
@@ -67,34 +53,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: JWT_TOKEN
-                  expires_in:
-                    type: integer
-                    example: 123456789
-        '400':
-          description: Invaild Credentials
+                $ref: '#/components/schemas/LoginUserSuccessfulResponse'
+        default:
+          description: Default Response
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Invaild Credentials
-        '404':
-          description: Incorrect Credentials
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Incorrect Credentials
+                $ref: '#/components/schemas/DefaultResponse'
 
   /auth/role:
     get:
@@ -113,8 +78,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/RoleDto'
 
-        '403':
-          description: Unauthorized request
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
     post:
       tags:
         - Auth
@@ -130,18 +99,12 @@ paths:
                 $ref: '#/components/schemas/RoleCreationDto'
         required: true
       responses:
-        '201':
-          description: successful created
-            # content:
-            #   application/json:
-            #     schema:
-            #       type: array
-            #       items:
-            #         $ref: '#/components/schemas/RoleDto'
-
-        '403':
-          description: Unauthorized request
-
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
   /user/{id}:
     get:
       tags:
@@ -166,8 +129,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserDto'
 
-        '404':
-          description: User not found
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
 
   /user/{id}/role:
     get:
@@ -195,8 +162,12 @@ paths:
                 items:
                   $ref: '#/components/schemas/RoleDto'
 
-        '404':
-          description: User not found
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
     post:
       tags:
         - User
@@ -224,114 +195,14 @@ paths:
                 format: int64
         required: true
       responses:
-        '200':
-          description: successful operation
-            # content:
-            #   application/json:
-            #     schema:
-            #       type: array
-            #       items:
-            #         $ref: '#/components/schemas/RoleDto'
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
 
-        '404':
-          description: User not found
 
-            # /book/findByIsbn:
-            #   get:
-            #     tags:
-            #       - Books
-            #     summary: Finds book by isbn
-            #     operationId: findBookByIsbn
-            #     parameters:
-            #       - name: isbn
-            #         in: query
-            #         description: Isbn value that need to be considered for filter
-            #         required: true
-            #         explode: true
-            #         schema:
-            #           type: string
-            #         example: 123456
-            #     responses:
-            #       '200':
-            #         description: successful operation
-            #         content:
-            #           application/json:
-            #             schema:
-            #               $ref: '#/components/schemas/BookDto'
-            #       '400':
-            #         description: Invalid isbn value
-
-            # /book/findByPublisher:
-            #   get:
-            #     tags:
-            #       - Books
-            #     summary: Find books by publisher
-            #     operationId: findBooksByPublisher
-            #     parameters:
-            #       - name: publisher
-            #         in: query
-            #         description: Publisher value that need to be considered for filter
-            #         required: true
-            #         explode: true
-            #         schema:
-            #           type: string
-            #         example: CFA Inistitute
-            #     responses:
-            #       '200':
-            #         description: successful operation
-            #         content:
-            #           application/json:
-            #             schema:
-            #               type: array
-            #               items:
-            #                 $ref: '#/components/schemas/BookDto'
-            #       '400':
-            #         description: Invalid publisher value
-
-  # /book/{bookId}:
-  #   get:
-  #     tags:
-  #       - Books
-  #     summary: Find pet by ID
-  #     description: Returns a single pet
-  #     operationId: getPetById
-  #     parameters:
-  #       - name: bookId
-  #         in: path
-  #         description: ID of book to return
-  #         required: true
-  #         schema:
-  #           type: integer
-  #           format: int64
-  #     responses:
-  #       '200':
-  #         description: successful operation
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/BookDto'
-  #       '400':
-  #         description: Invalid ID supplied
-  #       '404':
-  #         description: Book not found
-
-  #   delete:
-  #     tags:
-  #       - Books
-  #     summary: Deletes a book
-  #     description: delete a book
-  #     operationId: deleteBook
-  #     parameters:
-  #       - name: bookId
-  #         in: path
-  #         description: Book id to delete
-  #         required: true
-  #         schema:
-  #           type: integer
-  #           format: int64
-  #     responses:
-  #       '400':
-  #         description: Invalid Book Id value
 
 components:
   schemas:
@@ -395,3 +266,33 @@ components:
         type:
           type: string
           example: VISITOR
+
+    DefaultResponse:
+      type: "object"
+      required:
+        - message
+        - code
+      properties:
+        message:
+          type: string
+          example: "Descriptive Message Here"
+        code:
+          description: Status Code
+          type: string
+          example: 403
+
+
+    LoginUserSuccessfulResponse:
+      allOf:
+        - $ref: '#/components/schemas/DefaultResponse'
+        - type: "object"
+          required:
+            - token
+            - expires_in
+          properties:
+            token:
+              type: string
+              example: JWT_TOKEN
+            expires_in:
+              type: integer
+              example: 123456789
