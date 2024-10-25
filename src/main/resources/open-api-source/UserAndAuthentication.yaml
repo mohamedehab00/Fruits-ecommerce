@@ -1,0 +1,298 @@
+openapi: 3.0.3
+info:
+  title: Fruits Ecommerce Back-End API v1
+  version: 1.0.11
+servers:
+  - url: http://localhost:8080/api/v1
+
+tags:
+  - name: Auth
+    description: Authentication Endpoints
+  - name: User
+    description: All User Endpoints
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register a new user
+      description: Register a new user to our platform
+      operationId: registerUser
+      requestBody:
+        description: User to be registered
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreationDto'
+        required: true
+      responses:
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: User login
+      description: User login to our platform
+      operationId: loginUser
+      requestBody:
+        description: User to be logged in
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginDto'
+        required: true
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginUserSuccessfulResponse'
+        default:
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+
+  /auth/role:
+    get:
+      tags:
+        - Auth
+      summary: Find all roles
+      operationId: findAllRoles
+
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleDto'
+
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+    post:
+      tags:
+        - Auth
+      summary: Bulk addition of new roles
+      operationId: addNewRoles
+      requestBody:
+        description: Roles to be added
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleCreationDto'
+        required: true
+      responses:
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+  /user/{id}:
+    get:
+      tags:
+        - User
+      summary: Finds user by user id
+      operationId: findUserByUserId
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          explode: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+
+  /user/{id}/role:
+    get:
+      tags:
+        - User
+      summary: Finds user roles by user id
+      operationId: findRolesByUserId
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          explode: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleDto'
+
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+    post:
+      tags:
+        - User
+      summary: Add Roles To User By User Id
+      operationId: addRolesToUserByUserId
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          explode: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      requestBody:
+        description: Role Ids to be added to specific user
+        content:
+          application/json:
+            schema:
+              description: Role Ids to be added to specific user
+              type: array
+              items:
+                type: integer
+                format: int64
+        required: true
+      responses:
+        default:
+          description: Default response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+
+
+
+components:
+  schemas:
+    UserLoginDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          example: haysd12345+_@artsswq
+    UserDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        email:
+          type: string
+          format: email
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleDto'
+        updatedAt:
+          type: string
+          format: date-time
+
+    UserCreationDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          example: haysd12345+_@artsswq
+        roles:
+          description: User's role Ids
+          type: array
+          items:
+            type: integer
+            format: int64
+
+    RoleDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        type:
+          type: string
+          example: ROLE_VISITOR
+
+    RoleCreationDto:
+      type: object
+      properties:
+        type:
+          type: string
+          example: VISITOR
+
+    DefaultResponse:
+      type: "object"
+      required:
+        - message
+        - code
+      properties:
+        message:
+          type: string
+          example: "Descriptive Message Here"
+        code:
+          description: Status Code
+          type: string
+          example: 403
+
+
+    LoginUserSuccessfulResponse:
+      allOf:
+        - $ref: '#/components/schemas/DefaultResponse'
+        - type: "object"
+          required:
+            - token
+            - expires_in
+          properties:
+            token:
+              type: string
+              example: JWT_TOKEN
+            expires_in:
+              type: integer
+              example: 123456789
