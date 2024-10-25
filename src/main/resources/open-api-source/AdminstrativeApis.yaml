@@ -11,7 +11,7 @@ tags:
 
 
 paths:
-  /dashboard/products:
+  /products:
     post:
       tags:
         - Adminstrative Endpoints

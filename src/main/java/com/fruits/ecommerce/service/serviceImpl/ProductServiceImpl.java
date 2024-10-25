@@ -2,7 +2,7 @@ package com.fruits.ecommerce.service.serviceImpl;
 
 import com.fruits.ecommerce.Util.PagingUtil;
 import com.fruits.ecommerce.domain.Product;
-import com.fruits.ecommerce.mapper.ProductProductDtoMapper;
+import com.fruits.ecommerce.mapper.ProductMapper;
 import com.fruits.ecommerce.repository.ProductRepository;
 import com.fruits.ecommerce.service.ProductService;
 import com.fruits_openapi.ecommerce_openapi.model.ProductCreationDto;
@@ -20,7 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     public final ProductRepository productRepository;
-    public final ProductProductDtoMapper productProductDtoMapper;
+    public final ProductMapper productProductDtoMapper;
 
     @Override
     public List<ProductDto> getAllProducts(Long pageNo, Long pageSize) {

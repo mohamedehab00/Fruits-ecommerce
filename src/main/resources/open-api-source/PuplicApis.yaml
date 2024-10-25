@@ -16,7 +16,7 @@ paths:
       tags:
         - Public Endpoints
       summary: Get all products
-      operationId: findAllProducts
+      operationId: listProducts
       parameters:
         - name: page
           in: query

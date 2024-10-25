@@ -6,7 +6,7 @@ import com.fruits_openapi.ecommerce_openapi.model.RoleDto;
 import org.mapstruct.Mapper;
 
 @Mapper
-public interface RoleRoleDtoMapper {
+public interface RoleMapper {
     Role roleDtoToRole(RoleDto roleDto);
     RoleDto roleToRoleDto(Role role);
     Role roleCreationDtoToRole(RoleCreationDto roleCreationDto);

@@ -22,7 +22,7 @@ public class Role {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String type;
+    private String roleName;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

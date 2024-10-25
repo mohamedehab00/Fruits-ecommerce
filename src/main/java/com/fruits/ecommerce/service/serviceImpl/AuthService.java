@@ -2,8 +2,8 @@ package com.fruits.ecommerce.service.serviceImpl;
 
 import com.fruits.ecommerce.domain.Role;
 import com.fruits.ecommerce.domain.User;
-import com.fruits.ecommerce.mapper.RoleRoleDtoMapper;
-import com.fruits.ecommerce.mapper.UserUserDtoMapper;
+import com.fruits.ecommerce.mapper.RoleMapper;
+import com.fruits.ecommerce.mapper.UserMapper;
 import com.fruits.ecommerce.repository.RoleRepository;
 import com.fruits.ecommerce.repository.UserRepository;
 import com.fruits_openapi.ecommerce_openapi.model.*;
@@ -25,8 +25,8 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final UserUserDtoMapper userMapper;
-    private final RoleRoleDtoMapper roleMapper;
+    private final UserMapper userMapper;
+    private final RoleMapper roleMapper;
 
     @Transactional
     public UserDto signup(UserCreationDto input) {
@@ -80,7 +80,7 @@ public class AuthService {
         for (RoleCreationDto roleCreationDto : validRoles) {
             Role role = Role.builder()
                     .id(null)
-                    .type("ROLE_" + roleCreationDto.getType())
+                    .roleName("ROLE_" + roleCreationDto.getType())
                     .createdAt(null)
                     .updatedAt(null)
                     .build();

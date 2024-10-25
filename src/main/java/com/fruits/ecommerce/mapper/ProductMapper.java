@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper
-public interface ProductProductDtoMapper {
+public interface ProductMapper {
     ProductDto productToProductDto(Product product);
     @Mapping(source = "imagePath",target = "image_path")
     Product productCreateDtoToProduct(ProductCreationDto productCreationDto);

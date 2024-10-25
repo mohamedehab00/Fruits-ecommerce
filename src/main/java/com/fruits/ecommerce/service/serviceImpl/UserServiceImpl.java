@@ -1,7 +1,7 @@
 package com.fruits.ecommerce.service.serviceImpl;
 
 import com.fruits.ecommerce.domain.User;
-import com.fruits.ecommerce.mapper.UserUserDtoMapper;
+import com.fruits.ecommerce.mapper.UserMapper;
 import com.fruits.ecommerce.repository.RoleRepository;
 import com.fruits.ecommerce.repository.UserRepository;
 import com.fruits.ecommerce.service.UserService;
@@ -21,7 +21,7 @@ public class UserServiceImpl
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final UserUserDtoMapper userMapper;
+    private final UserMapper userMapper;
 
     @Override
     public UserDto getUserByEmail(String email) {
